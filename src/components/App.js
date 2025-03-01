@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Loading from "./Loading";
 import Tours from "./Tours";
 
-const API_URL = "https://course-api.com/react-tours-project"; // API endpoint
+const url = "https://course-api.com/react-tours-project";
 
-const App = () => {
-  const [tours, setTours] = useState([]);
+function App() {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [tours, setTours] = useState([]);
 
   const fetchTours = async () => {
     setLoading(true);
-    setError(null);
-
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error("Failed to fetch tours");
-      }
+      const response = await fetch(url);
       const data = await response.json();
       setTours(data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
       setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching tours:", error);
     }
   };
 
@@ -31,24 +25,26 @@ const App = () => {
     fetchTours();
   }, []);
 
+  const removeTour = (id) => {
+    setTours(tours.filter((tour) => tour.id !== id));
+  };
+
   if (loading) {
     return <Loading />;
   }
 
-  if (error) {
-    return <h2 className="error">Error: {error}</h2>;
-  }
-
   return (
     <main>
-      <h1>Our Tours</h1>
       {tours.length === 0 ? (
-        <p>No tours available</p>
+        <div className="no-tours">
+          <h2>No tours left</h2>
+          <button onClick={fetchTours}>Refresh</button>
+        </div>
       ) : (
-        <Tours tours={tours} setTours={setTours} />
+        <Tours tours={tours} removeTour={removeTour} />
       )}
     </main>
   );
-};
+}
 
 export default App;
