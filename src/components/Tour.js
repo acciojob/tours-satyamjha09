@@ -18,7 +18,7 @@ const Tour = ({ id, image, info, name, price, removeTour }) => {
               onClick={() => setShowMore(!showMore)}
               id={`see-more-${id}`}  // Changed ID to match test requirements
             >
-              {showMore ? 'See less' : 'Show more'}
+              {showMore ? 'See less' : 'See more'}
             </button>
           )}
         </p>
