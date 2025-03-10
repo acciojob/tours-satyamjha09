@@ -47,29 +47,28 @@ const App = () => {
   const removeTour = (id) => {
     const newTours = tours.filter((tour) => tour.id !== id);
     setTours(newTours);
-  }
+  };
 
   const resetTours = () => {
     setTours(initialTours);
-  }
+  };
 
-  if(tours.length === 0) {
+  if (tours.length === 0) {
     return (
       <div className="container">
-        <h2>No Tours left</h2>
-        <button className="btn" onClick={removeTour}>
+        <h2>No tours left</h2>
+        <button className="btn" onClick={resetTours}>
           Refresh
         </button>
       </div>
     );
   }
-  
 
   return (
-    <main>
+    <main id="main">
       <Tours tours={tours} removeTour={removeTour} />
     </main>
-  )
+  );
 }
 
 export default App
